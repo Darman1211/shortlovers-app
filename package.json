@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "directus start",
-    "dev:staging": "cross-env NODE_ENV=development SERVE_APP=true node --loader ts-node/esm src/nodemon.ts --env staging"
+    "dev:staging": "cross-env NODE_ENV=development SERVE_APP=true node --loader ts-node/esm src/nodemon.ts --env staging",
+    "build:ts": "tsc -p tsconfig.json",
+    "build": "node --loader ts-node/esm scripts/build.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +27,7 @@
     "@types/node": "^24.8.1",
     "@types/yargs": "^17.0.33",
     "env-cmd": "^11.0.0",
+    "shx": "^0.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
