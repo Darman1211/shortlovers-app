@@ -16,3 +16,25 @@ export type Drama = {
     genres?: any | null;
     category?: any | null;
 }
+
+export type Categories = {
+    id: number;
+    date_created?: string | null;
+    date_updated?: string | null;
+    name: string;
+}
+
+export type Genres = {
+    id: number;
+    date_created?: string | null;
+    date_updated?: string | null;
+    name: string;
+}
+
+export type DramasGenres = {
+    id: number;
+    date_created?: string | null;
+    date_updated?: string | null;
+    drama_id: string;
+    genre_id: string;
+}
