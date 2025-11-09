@@ -128,15 +128,11 @@ export class DramaService extends BaseService {
                     }
                 }
             } catch (error) {
-                console.log('DramaService createDramaAndEpisodes error:', error);
                 throw error;
             }
         }
 
-        const dramasData = await dramaService.readByQuery({
-            fields: ['*'],
-            limit: -1
-        });
+        const dramasData = await dramaService.readByQuery({ fields: ['*'], limit: -1 });
 
         return {
             data: dramasData,
