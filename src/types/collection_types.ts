@@ -1,7 +1,7 @@
 import { DirectusUser } from "./directus_types.js";
 
 export type Drama = {
-    id: number;
+    id: string;
     status: string;
     user_created?: string | DirectusUser | null;
     date_created?: string | null;
@@ -37,4 +37,18 @@ export type DramasGenres = {
     date_updated?: string | null;
     drama_id: string;
     genre_id: string;
+}
+export type Episodes = {
+    id: string;
+    date_created?: string | null;
+    date_updated?: string | null;
+    drama_id: Drama;
+    episode_number: number;
+    name: string;
+    episode_link: string;
+    cover_link?: string | null;
+    cover: string | null;
+    is_locked?: boolean | null;
+    description?: string | null;
+    segments?: any | null;
 }

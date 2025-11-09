@@ -1,4 +1,4 @@
-import { Categories, Drama, DramasGenres } from "src/types/collection_types.js";
+import { Categories, Drama, DramasGenres, Episodes } from "src/types/collection_types.js";
 import { BaseService } from "./BaseService.js";
 import { DataFilter, MetaResponse } from "src/types/directus_types.js";
 
@@ -28,6 +28,7 @@ export class DramaService extends BaseService {
         const categoryService = this.getItemsService<Categories>('categories');
         const genresService = this.getItemsService<Categories>('genres');
         const dramasGenresService = this.getItemsService<DramasGenres>('dramas_genres');
+        const episodesService = this.getItemsService<Episodes>('episodes');
 
         const categoriesData = await categoryService.readByQuery({ fields: ['*'], limit: -1 });
         const genresData = await genresService.readByQuery({ fields: ['*'], limit: -1 });
@@ -100,6 +101,30 @@ export class DramaService extends BaseService {
                                 });
                             }
                         }
+                    }
+
+                    // create episodes relations
+                    const dramaEpisodes = drama.episodes;
+                    if (dramaEpisodes && dramaEpisodes.length > 0) {
+                        const episodeData = dramaEpisodes.map((episode: any) => {
+                            const episodeNumber = episode.episodeNumber.match(/\d+/)?.[0];
+                            const epsNum = episodeNumber ? Number(episodeNumber) : 0;
+                            
+                            return {
+                                id: episode.idEpisode,
+                                drama_id: dramaId,
+                                episode_link: episode.href,
+                                cover_link: episode.imgSrc,
+                                cover: episode.episodeCover,
+                                name: episode.alt,
+                                episode_number: epsNum,
+                                status: 'published',
+                            }
+                        });
+                        
+                        await this.knex.transaction(async (trx) => {
+                            await trx('episodes').insert(episodeData);
+                        });
                     }
                 }
             } catch (error) {
