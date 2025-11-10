@@ -2,20 +2,17 @@ import { Drama } from "src/types/collection_types.js";
 import { BaseService } from "./BaseService.js";
 import { DataFilter, MetaResponse } from "src/types/directus_types.js";
 import { CategoryService } from "./CategoryService.js";
-import { GenreService } from "./GenreService.js";
 import { DramasGenresService } from "./DramasGenresService.js";
 import { EpisodeService } from "./EpisodeService.js";
 
 export class DramaService extends BaseService {
     private categoryService: CategoryService;
-    private genreService: GenreService;
     private dramasGenresService: DramasGenresService;
     private episodeService: EpisodeService;
 
     constructor(options: any) {
         super(options);
         this.categoryService = new CategoryService(options);
-        this.genreService = new GenreService(options);
         this.dramasGenresService = new DramasGenresService(options);
         this.episodeService = new EpisodeService(options);
     }
