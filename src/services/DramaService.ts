@@ -4,17 +4,20 @@ import { DataFilter, MetaResponse } from "src/types/directus_types.js";
 import { CategoryService } from "./CategoryService.js";
 import { DramasGenresService } from "./DramasGenresService.js";
 import { EpisodeService } from "./EpisodeService.js";
+import { SegmentService } from "./SegmentService.js";
 
 export class DramaService extends BaseService {
     private categoryService: CategoryService;
     private dramasGenresService: DramasGenresService;
     private episodeService: EpisodeService;
+    private segmentService: SegmentService;
 
     constructor(options: any) {
         super(options);
         this.categoryService = new CategoryService(options);
         this.dramasGenresService = new DramasGenresService(options);
         this.episodeService = new EpisodeService(options);
+        this.segmentService = new SegmentService(options);
     }
 
     async getAllDramas(filter: DataFilter): Promise<{ data: Drama[]; meta: MetaResponse }> {
@@ -78,5 +81,17 @@ export class DramaService extends BaseService {
                 page_count: 0
             },
         };
+    }
+
+    async createSegments(bodyRequest: any): Promise<{ success: boolean }> {
+        try {
+            if (bodyRequest && bodyRequest.length > 0) {
+                await this.segmentService.createSegments(bodyRequest);
+            }
+
+            return { success: true };
+        } catch (error) {
+            throw new Error(`Error creating segments for episode: ${error}`);
+        }
     }
 }

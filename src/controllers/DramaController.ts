@@ -17,9 +17,24 @@ export class DramaController extends BaseController {
 			res.json(result);
 
 		} catch (error) {
-			console.log('DramaController createDrama error:', error);
 			throw error;
-			// await handleControllerError(error, res, this.options, req.accountability);
+		}
+	}
+
+    async createSegments(req: Request, res: Response, next: NextFunction): Promise<void> {
+		try {
+			const bodyRequest = req.body;
+
+			const dramaService = new services.DramaService({
+				...this.options,
+				accountability: req.accountability,
+			});
+
+			const result = await dramaService.createSegments(bodyRequest);
+			res.json(result);
+
+		} catch (error) {
+			throw error;
 		}
 	}
 }
